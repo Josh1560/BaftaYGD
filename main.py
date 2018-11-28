@@ -30,7 +30,8 @@ class character:
         self.velocity = velocity
     jumping = False
     ducking = False
-    jumpCount = 10
+    jumpFrame = 10
+    attacking = False
     def left(self):
         if self.x > 0:
             self.x -= self.velocity
@@ -39,20 +40,24 @@ class character:
             self.x += self.velocity
     def duck(self, state):
         if self.y < settings["resolution"]["y"] - self.height:
+            # TODO: Replace this with an image asset
             if state and not self.ducking:
                 self.ducking = True
                 self.y += self.velocity
-                # TODO: Replace this with an image asset
-            else:
+            elif self.ducking:
                 self.ducking = False
                 self.y -= self.velocity
-                # TODO: Replace this with an image asset
-    def attack(self):
-        print("coming soon ;)")
-        # TODO: Make attacking
+    # TODO: Make attacking
+    def attack(self, state):
+        if state and not self.attacking:
+            self.attacking = True
+            print("Attacking")
+        elif self.attacking:
+            self.attacking = False
+            print("Attacked")
     def characterSelection(self):
         self.character = input("Please select a character")
-        # TODO: Replace this with an image asset
+        # TODO: Replace this with image assets
 
 class enemy:
     def __init__(self, color, x, y, width, height, velocity):
@@ -86,20 +91,29 @@ char = character(
     velocity = 5
 )
 
-gameActive = True
-while gameActive:
+render = True
+while render:
     pygame.time.delay(10)
     """Pygame Events"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            gameActive = False
+            render = False
         """Key Events"""
+        # TODO: Try to shorten these lines
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+            #DUCK_TRUE
+            if event.key == pygame.K_DOWN or event.key == pygame.K_s or event.key == pygame.K_LCTRL:
                 char.duck(True)
+            #ATTACK_TRUE
+            if event.key == pygame.K_f: char.attack(True)
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+            #DUCK_FALSE
+            if event.key == pygame.K_DOWN or event.key == pygame.K_s or event.key == pygame.K_LCTRL:
                 char.duck(False)
+            #ATTACK_FALSE
+            if event.key == pygame.K_f: char.attack(False)
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: char.attack(True)
+        if event.type == pygame.MOUSEBUTTONUP and event.button == 1: char.attack(False)
     """Keypresses"""
     keys = pygame.key.get_pressed()
     #LEFT
@@ -114,19 +128,18 @@ while gameActive:
         elif keys[pygame.K_w]: char.jumping = True
         elif keys[pygame.K_SPACE]: char.jumping = True
     else:
-        if char.jumpCount >= -10:
-            if char.jumpCount < 0:
+        if char.jumpFrame >= -10:
+            if char.jumpFrame < 0:
                 fall = -1
             else:
                 fall = 1
-            char.y -= (char.jumpCount ** 2) / 2 * fall
-            char.jumpCount -= 1
+            char.y -= (char.jumpFrame ** 2) / 2 * fall
+            char.jumpFrame -= 1
         else:
             char.jumping = False
-            char.jumpCount = 10
-    #ATTACK
-    if keys[pygame.K_f]: char.attack()
-    """Display all of this stuff"""
+            char.jumpFrame = 10
+    #if char.attacking
+    """Render screen"""
     screen.fill((0))
     pygame.draw.rect(screen, char.color, (char.x, char.y, char.width, char.height))
     pygame.display.update()
