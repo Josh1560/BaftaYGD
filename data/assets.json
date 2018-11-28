@@ -1,0 +1,48 @@
+{
+  "playerSkins": {
+    "platypus": {
+      "formalName": "Platypus",
+      "assetPath": ""
+    },
+    "dinosaur": {
+      "formalName": "Dinosaur",
+      "assetPath": ""
+    },
+    "doggo": {
+      "formalName": "Doggo",
+      "assetPath": ""
+    },
+    "kitty_cat": {
+      "formalName": "Kitty Cat",
+      "assetPath": ""
+    }
+  },
+  "enemySkins": {
+    "1": {
+      "assetPath": ""
+    },
+    "2": {
+      "assetPath": ""
+    },
+    "3": {
+      "assetPath": ""
+    },
+    "4": {
+      "assetPath": ""
+    }
+  },
+  "friendlySkins": {
+    "1": {
+      "assetPath": ""
+    },
+    "2": {
+      "assetPath": ""
+    },
+    "3": {
+      "assetPath": ""
+    },
+    "4": {
+      "assetPath": ""
+    }
+  }
+}
