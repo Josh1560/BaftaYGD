@@ -21,34 +21,35 @@ screen = pygame.display.set_mode((settings["resolution"]["x"], settings["resolut
 pygame.display.set_caption("BaftaYGD")
 
 class character:
-    def __init__(self, color, x, y, width, height, velocity):
+    def __init__(self, color, x, y, width, height, speed):
         self.color = color
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.velocity = velocity
+        self.speed = speed
     jumping = False
     ducking = False
     jumpFrame = 10
     attacking = False
+    attackFrame = 0
     def left(self):
-        if self.x > 0:
-            self.x -= self.velocity
+        #if self.x > 0:
+        self.x -= self.speed
     def right(self):
-        if self.x < settings["resolution"]["x"] - self.width:
-            self.x += self.velocity
+        #if self.x < settings["resolution"]["x"] - self.width:
+        self.x += self.speed
     def duck(self, state):
         if self.y < settings["resolution"]["y"] - self.height:
             # TODO: Replace this with an image asset
             if state and not self.ducking:
                 self.ducking = True
-                self.y += self.velocity
+                self.y += 5
             elif self.ducking:
                 self.ducking = False
-                self.y -= self.velocity
-    # TODO: Make attacking
+                self.y -= 5
     def attack(self, state):
+        # TODO: Make attacking
         if state and not self.attacking:
             self.attacking = True
             print("Attacking")
@@ -60,13 +61,13 @@ class character:
         # TODO: Replace this with image assets
 
 class enemy:
-    def __init__(self, color, x, y, width, height, velocity):
+    def __init__(self, color, x, y, width, height, speed):
         self.color = color
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.velocity = velocity
+        self.speed = speed
 
 class gameResults:
     def victory():
@@ -84,11 +85,11 @@ class gameResults:
 
 char = character(
     color = (255, 0, 0),
-    x = 100,
+    x = 0,
     y = settings["resolution"]["y"] - 70,
     width = 60,
     height = 60,
-    velocity = 5
+    speed = 10
 )
 
 render = True

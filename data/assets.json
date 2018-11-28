@@ -32,4 +32,11 @@
       "path": ""
     }
   ],
+  "tools": {
+    "name": {
+      "name": "",
+      "damage": "",
+      "oneUse": false
+    }
+  }
 }
