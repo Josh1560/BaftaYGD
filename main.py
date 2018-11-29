@@ -20,50 +20,15 @@ pygame.init()
 screen = pygame.display.set_mode((settings["resolution"]["x"], settings["resolution"]["y"]))
 pygame.display.set_caption("BaftaYGD")
 
-class character:
-    def __init__(self, frames, x, y, width, height, speed):
-        self.frames = frames
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.speed = speed
-    facingRight = False
-    jumping = False
-    ducking = False
-    jumpFrame = 10
-    attacking = False
-    attackFrame = 0
-    def left(self):
-        #if self.x > 0:
-        self.facingRight = False
-        self.x -= self.speed
-    def right(self):
-        #if self.x < settings["resolution"]["x"] - self.width:
-        self.facingRight = True
-        self.x += self.speed
-    def duck(self, state):
-        if self.y < settings["resolution"]["y"] - self.height:
-            # TODO: Replace this with an image asset
-            if state and not self.ducking:
-                self.ducking = True
-                self.y += 5
-            elif self.ducking:
-                self.ducking = False
-                self.y -= 5
-    def attack(self, state):
-        # TODO: Make attacking
-        if state and not self.attacking:
-            self.attacking = True
-            print("Attacking")
-        elif self.attacking:
-            self.attacking = False
-            print("Attacked")
-    def characterSelection(self):
-        self.character = input("Please select a character")
-        # TODO: Replace this with image assets
-    def draw(self):
-        print()
+import libs.sprites
+char = libs.sprites.player(
+    frames = pygame.image.load("images/sample.png"),
+    x = 0,
+    y = settings["resolution"]["y"] - 74,
+    width = 64,
+    height = 64,
+    speed = 10
+)
 
 class gameResults:
     def victory():
@@ -77,16 +42,6 @@ class gameResults:
     def stalemate():
         if remaininTime == 0:
             print("It's a draw!")
-
-
-char = character(
-    frames = pygame.image.load("images/sample.png"),
-    x = 0,
-    y = settings["resolution"]["y"] - 70,
-    width = 60,
-    height = 60,
-    speed = 10
-)
 
 render = True
 while render:
