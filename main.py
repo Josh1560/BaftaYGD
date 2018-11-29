@@ -21,13 +21,14 @@ screen = pygame.display.set_mode((settings["resolution"]["x"], settings["resolut
 pygame.display.set_caption("BaftaYGD")
 
 class character:
-    def __init__(self, color, x, y, width, height, speed):
-        self.color = color
+    def __init__(self, frames, x, y, width, height, speed):
+        self.frames = frames
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.speed = speed
+    facingRight = False
     jumping = False
     ducking = False
     jumpFrame = 10
@@ -35,9 +36,11 @@ class character:
     attackFrame = 0
     def left(self):
         #if self.x > 0:
+        self.facingRight = False
         self.x -= self.speed
     def right(self):
         #if self.x < settings["resolution"]["x"] - self.width:
+        self.facingRight = True
         self.x += self.speed
     def duck(self, state):
         if self.y < settings["resolution"]["y"] - self.height:
@@ -59,17 +62,8 @@ class character:
     def characterSelection(self):
         self.character = input("Please select a character")
         # TODO: Replace this with image assets
-    def update(self):
+    def draw(self):
         print()
-
-class enemy:
-    def __init__(self, color, x, y, width, height, speed):
-        self.color = color
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.speed = speed
 
 class gameResults:
     def victory():
@@ -86,7 +80,7 @@ class gameResults:
 
 
 char = character(
-    color = (255, 0, 0),
+    frames = pygame.image.load("images/sample.png"),
     x = 0,
     y = settings["resolution"]["y"] - 70,
     width = 60,
@@ -104,6 +98,8 @@ while render:
         """Key Events"""
         # TODO: Try to shorten these lines
         if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                render = False
             #DUCK_TRUE
             if event.key == pygame.K_DOWN or event.key == pygame.K_s or event.key == pygame.K_LCTRL:
                 char.duck(True)
@@ -151,8 +147,8 @@ while render:
     elif mx <= 128:
         print("Left")
     """Render screen"""
-    screen.fill((0))
-    pygame.draw.rect(screen, char.color, (char.x, char.y, char.width, char.height))
+    screen.fill((255, 255, 255))
+    screen.blit(pygame.transform.flip(char.frames, char.facingRight, False), (char.x, char.y))
     pygame.display.update()
 
 pygame.quit()
