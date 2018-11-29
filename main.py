@@ -59,6 +59,8 @@ class character:
     def characterSelection(self):
         self.character = input("Please select a character")
         # TODO: Replace this with image assets
+    def update(self):
+        print()
 
 class enemy:
     def __init__(self, color, x, y, width, height, speed):
@@ -140,6 +142,14 @@ while render:
             char.jumping = False
             char.jumpFrame = 10
     #if char.attacking
+    """Mouse Positions"""
+    mx, my = pygame.mouse.get_pos()
+    #RIGHT
+    if mx >= settings["resolution"]["x"] - 128:
+        print("Right")
+    #LEFT
+    elif mx <= 128:
+        print("Left")
     """Render screen"""
     screen.fill((0))
     pygame.draw.rect(screen, char.color, (char.x, char.y, char.width, char.height))
