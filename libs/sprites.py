@@ -2,6 +2,9 @@
 # TODO: Move jumping and other character rendering stuff into here
 # TODO: Try to move controls into here idk
 
+from json import load
+settings = load(open("data/settings.json"))
+
 class player:
     def __init__(self, frames, x, y, width, height, speed):
         self.frames = frames
