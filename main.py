@@ -19,6 +19,7 @@ settings = load(open("data/settings.json"))
 pygame.init()
 screen = pygame.display.set_mode((settings["resolution"]["x"], settings["resolution"]["y"]))
 pygame.display.set_caption("BaftaYGD")
+clock = pygame.time.Clock()
 
 import libs.sprites
 char = libs.sprites.player(
@@ -45,7 +46,7 @@ class gameResults:
 
 render = True
 while render:
-    pygame.time.delay(10)
+    clock.tick(30)
     """Pygame Events"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
