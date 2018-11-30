@@ -13,12 +13,13 @@ class player:
         self.width = width
         self.height = height
         self.speed = speed
-    facingRight = False
-    jumping = False
-    ducking = False
-    jumpFrame = 10
-    attacking = False
-    attackFrame = 0
+        #Set non-argument variables
+        self.facingRight = False
+        self.jumping = False
+        self.ducking = False
+        self.jumpFrame = 10
+        self.attacking = False
+        self.attackFrame = 0
     def left(self):
         #if self.x > 0:
         self.facingRight = False

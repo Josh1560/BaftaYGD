@@ -1,10 +1,10 @@
 print("Starting...")
 
 # TODO: Change resolution to something easier to manage/less lines
-# TODO: Add panning to the right when the mouse if on the right of the screen
-# TODO: Dont rely on FPS clock for movement AKA stop higher fps means faster movement
+# TODO: Add camera classes
 # TODO: Add attacking
-# TODO: Check if multi-threading exists in Pygame, use it if possible
+# TODO: Get some graphics sorted
+# TODO: Sort out animations
 
 # CONCEPT: SKIN: Platypus
 # CONCEPT: SKIN: Dinosaur
@@ -96,12 +96,12 @@ while render:
     #if char.attacking
     """Mouse Positions"""
     mx, my = pygame.mouse.get_pos()
-    #RIGHT
-    if mx >= settings["resolution"]["x"] - 128:
-        print("Right")
     #LEFT
-    elif mx <= 128:
+    if mx <= 128:
         print("Left")
+    #RIGHT
+    elif mx >= settings["resolution"]["x"] - 128:
+        print("Right")
     """Render screen"""
     screen.fill((255, 255, 255))
     screen.blit(pygame.transform.flip(char.frames, char.facingRight, False), (char.x, char.y))
