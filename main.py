@@ -1,8 +1,5 @@
 print("Starting...")
 
-#D:\Files\Repositories\BaftaYGD\Young Games Designer Entry
-
-# TODO: Change resolution to something easier to manage/less lines
 # TODO: Add camera classes
 # TODO: Add attacking
 # TODO: Get some graphics sorted
@@ -26,7 +23,7 @@ clock = pygame.time.Clock()
 
 import libs.sprites
 char = libs.sprites.player(
-    frames = pygame.image.load(assets["playerSkins"]["green_guy"]["path"]),
+    path = assets["playerSkins"]["green_guy"]["path"],
     x = 0,
     y = settings["resolution"]["y"] - 74,
     width = 64,
@@ -55,19 +52,15 @@ while render:
         if event.type == pygame.QUIT:
             render = False
         """Key Events"""
-        # TODO: Try to shorten these lines
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                render = False
+            if event.key == pygame.K_ESCAPE: render = False
             #DUCK_TRUE
-            if event.key == pygame.K_DOWN or event.key == pygame.K_s or event.key == pygame.K_LCTRL:
-                char.duck(True)
+            if event.key in [pygame.K_DOWN, pygame.K_s, pygame.K_LCTRL]: char.duck(True)
             #ATTACK_TRUE
             if event.key == pygame.K_f: char.attack(True)
         if event.type == pygame.KEYUP:
             #DUCK_FALSE
-            if event.key == pygame.K_DOWN or event.key == pygame.K_s or event.key == pygame.K_LCTRL:
-                char.duck(False)
+            if event.key in [pygame.K_DOWN, pygame.K_s, pygame.K_LCTRL]: char.duck(False)
             #ATTACK_FALSE
             if event.key == pygame.K_f: char.attack(False)
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: char.attack(True)
@@ -82,9 +75,9 @@ while render:
     elif keys[pygame.K_d]: char.right()
     #JUMP
     if not char.jumping:
-        if keys[pygame.K_UP]: char.jumping = True
-        elif keys[pygame.K_w]: char.jumping = True
-        elif keys[pygame.K_SPACE]: char.jumping = True
+        for i in [pygame.K_UP, pygame.K_w, pygame.K_SPACE]:
+            if keys[i]:
+                char.jumping = True
     else:
         if char.jumpFrame >= -10:
             if char.jumpFrame < 0:
@@ -107,7 +100,7 @@ while render:
         print("Right")
     """Render screen"""
     screen.fill((255, 255, 255))
-    screen.blit(pygame.transform.flip(char.frames, char.facingLeft, False), (char.x, char.y))
+    screen.blit(pygame.transform.flip(char.state, char.facingLeft, False), (char.x, char.y))
     pygame.display.update()
 
 pygame.quit()

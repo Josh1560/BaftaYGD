@@ -2,7 +2,7 @@
   "playerSkins": {
     "green_guy": {
       "name": "Green Guy",
-      "path": "./images/green_guy.png"
+      "path": "./assets/characters/player"
     },
     "platypus": {
       "name": "Platypus",

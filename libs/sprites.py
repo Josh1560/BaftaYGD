@@ -2,12 +2,15 @@
 # TODO: Move jumping and other character rendering stuff into here
 # TODO: Try to move controls into here idk
 
-from json import load
-settings = load(open("data/settings.json"))
+from pygame import image
+
+#from json import load
+#settings = load(open("data/settings.json"))
 
 class player:
-    def __init__(self, frames, x, y, width, height, speed):
-        self.frames = frames
+    def __init__(self, path, x, y, width, height, speed):
+        self.standing = image.load("{}/stand.png".format(path))
+        self.crouching = image.load("{}/crouch.png".format(path))
         self.x = x
         self.y = y
         self.width = width
@@ -20,6 +23,7 @@ class player:
         self.jumpFrame = 10
         self.attacking = False
         self.attackFrame = 0
+        self.state = self.standing
     def left(self):
         #if self.x > 0:
         self.facingLeft = True
@@ -29,14 +33,12 @@ class player:
         self.facingLeft = False
         self.x += self.speed
     def duck(self, state):
-        if self.y < settings["resolution"]["y"] - self.height:
-            # TODO: Replace this with an image asset
-            if state and not self.ducking:
-                self.ducking = True
-                self.y += 5
-            elif self.ducking:
-                self.ducking = False
-                self.y -= 5
+        if state and not self.ducking:
+            self.ducking = True
+            self.state = self.crouching
+        elif self.ducking:
+            self.ducking = False
+            self.state = self.standing
     def attack(self, state):
         # TODO: Make attacking
         if state and not self.attacking:
@@ -47,8 +49,8 @@ class player:
             print("Attacked")
     #def characterSelection(self):
         #self.character = input("Please select a character")
-    def draw(self):
-        print()
+    #def draw(self):
+        #screen.blit(pygame.transform.flip(self.state, self.facingLeft, False), (self.x, self.y))
 
 class friendly:
     oof = "yes"
