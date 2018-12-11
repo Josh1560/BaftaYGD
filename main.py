@@ -10,6 +10,8 @@ print("Starting...")
 # CONCEPT: SKIN: Doggo
 # CONCEPT: SKIN: Kitty cat
 
+loading = True
+
 import pygame
 
 from json import load
@@ -20,6 +22,9 @@ pygame.init()
 screen = pygame.display.set_mode((settings["resolution"]["x"], settings["resolution"]["y"]))
 pygame.display.set_caption("BaftaYGD")
 clock = pygame.time.Clock()
+
+import libs.loading
+libs.loading.initiate(screen, (libs.loading.colors[1:]))
 
 import libs.sprites
 char = libs.sprites.player(
@@ -100,6 +105,10 @@ while render:
         print("Right")
     """Render screen"""
     screen.fill((255, 255, 255))
+    """Loading"""
+    if loading:
+        libs.loading.update()
+        pygame.draw.circle(screen, libs.loading.colors[0], (settings["resolution"]["x"]//2, settings["resolution"]["y"]//2), 5)
     screen.blit(pygame.transform.flip(char.state, char.facingLeft, False), (char.x, char.y))
     pygame.display.update()
 
