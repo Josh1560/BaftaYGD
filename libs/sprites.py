@@ -4,9 +4,6 @@
 
 from pygame import image
 
-#from json import load
-#settings = load(open("data/settings.json"))
-
 class player:
     def __init__(self, path, x, y, width, height, speed):
         self.standing = image.load("{}/stand.png".format(path))

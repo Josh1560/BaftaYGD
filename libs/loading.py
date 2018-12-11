@@ -5,6 +5,7 @@ from random import randint
 from json import load
 settings = load(open("data/settings.json"))
 
+isLoading = True
 colors = [(255, 0, 0), (255, 255, 0), (0, 255, 0), (0, 255, 255), (0, 0, 255), (255, 0, 255)]
 planets = []
 

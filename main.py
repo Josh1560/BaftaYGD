@@ -10,8 +10,6 @@ print("Starting...")
 # CONCEPT: SKIN: Doggo
 # CONCEPT: SKIN: Kitty cat
 
-loading = True
-
 import pygame
 
 from json import load
@@ -106,7 +104,7 @@ while render:
     """Render screen"""
     screen.fill((255, 255, 255))
     """Loading"""
-    if loading:
+    if libs.loading.isLoading:
         libs.loading.update()
         pygame.draw.circle(screen, libs.loading.colors[0], (settings["resolution"]["x"]//2, settings["resolution"]["y"]//2), 5)
     screen.blit(pygame.transform.flip(char.state, char.facingLeft, False), (char.x, char.y))
