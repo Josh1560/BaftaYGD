@@ -22,7 +22,7 @@ pygame.display.set_caption("BaftaYGD")
 clock = pygame.time.Clock()
 
 import libs.loading
-libs.loading.initiate(screen, (libs.loading.colors[1:]))
+libs.loading.initiate(screen, libs.loading.rainbow[1:])
 
 import libs.sprites
 char = libs.sprites.player(
@@ -105,8 +105,7 @@ while render:
     screen.fill((255, 255, 255))
     """Loading"""
     if libs.loading.isLoading:
-        libs.loading.update()
-        pygame.draw.circle(screen, libs.loading.colors[0], (settings["resolution"]["x"]//2, settings["resolution"]["y"]//2), 5)
+        libs.loading.update(screen, libs.loading.rainbow[0])
     screen.blit(pygame.transform.flip(char.state, char.facingLeft, False), (char.x, char.y))
     pygame.display.update()
 
