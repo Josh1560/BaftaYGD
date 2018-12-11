@@ -14,7 +14,7 @@ class player:
         self.height = height
         self.speed = speed
         #Set non-argument variables
-        self.facingRight = False
+        self.facingLeft = False
         self.jumping = False
         self.ducking = False
         self.jumpFrame = 10
@@ -22,11 +22,11 @@ class player:
         self.attackFrame = 0
     def left(self):
         #if self.x > 0:
-        self.facingRight = False
+        self.facingLeft = True
         self.x -= self.speed
     def right(self):
         #if self.x < settings["resolution"]["x"] - self.width:
-        self.facingRight = True
+        self.facingLeft = False
         self.x += self.speed
     def duck(self, state):
         if self.y < settings["resolution"]["y"] - self.height:

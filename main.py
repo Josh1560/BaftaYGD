@@ -1,5 +1,7 @@
 print("Starting...")
 
+#D:\Files\Repositories\BaftaYGD\Young Games Designer Entry
+
 # TODO: Change resolution to something easier to manage/less lines
 # TODO: Add camera classes
 # TODO: Add attacking
@@ -15,6 +17,7 @@ import pygame
 
 from json import load
 settings = load(open("data/settings.json"))
+assets = load(open("data/assets.json"))
 
 pygame.init()
 screen = pygame.display.set_mode((settings["resolution"]["x"], settings["resolution"]["y"]))
@@ -23,7 +26,7 @@ clock = pygame.time.Clock()
 
 import libs.sprites
 char = libs.sprites.player(
-    frames = pygame.image.load("images/sample.png"),
+    frames = pygame.image.load(assets["playerSkins"]["green_guy"]["path"]),
     x = 0,
     y = settings["resolution"]["y"] - 74,
     width = 64,
@@ -104,7 +107,7 @@ while render:
         print("Right")
     """Render screen"""
     screen.fill((255, 255, 255))
-    screen.blit(pygame.transform.flip(char.frames, char.facingRight, False), (char.x, char.y))
+    screen.blit(pygame.transform.flip(char.frames, char.facingLeft, False), (char.x, char.y))
     pygame.display.update()
 
 pygame.quit()

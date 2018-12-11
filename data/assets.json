@@ -1,5 +1,9 @@
 {
   "playerSkins": {
+    "green_guy": {
+      "name": "Green Guy",
+      "path": "./images/green_guy.png"
+    },
     "platypus": {
       "name": "Platypus",
       "path": ""
