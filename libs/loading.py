@@ -5,13 +5,15 @@ from random import randint
 from json import load
 settings = load(open("data/settings.json"))
 
-isLoading = True
+isLoading = False
+loadingTick = int()
+loadingTime = int()
 rainbow = [(255, 0, 0), (255, 255, 0), (0, 255, 0), (0, 255, 255), (0, 0, 255), (255, 0, 255)]
-planets = []
+planets = list()
 
 class planet:
     def __init__(self, screen, point, color):
-        self.rect = draw.rect(screen, color, (settings["resolution"]["x"]//2 - point, settings["resolution"]["y"]//2 - point, point*2, point*2))
+        self.rect = draw.rect(screen, (0), (settings["resolution"]["x"]//2 - point, settings["resolution"]["y"]//2 - point, point*2, point*2))
         self.color = color
         self.pointX = point
         #Set non-argument variables
@@ -28,11 +30,10 @@ class planet:
         angle = math.atan2(self.pointX, self.pointY)
         draw.arc(screen, self.color, self.rect, angle - math.pi/2, angle + math.pi/4, 2)
 
-def initiate(screen, colors):
+def initiate(screen, colors, time):
+    global isLoading, loadingTime, planets
+    isLoading = True
+    loadingTime = 30 * time
+    planets = list()
     for i in range(len(colors)):
         planets.append(planet(screen, (i + 1) * 25, colors[i]))
-
-def update(screen, color):
-    draw.circle(screen, color, (settings["resolution"]["x"]//2, settings["resolution"]["y"]//2), 5)
-    for i in planets:
-        i.update(screen)
