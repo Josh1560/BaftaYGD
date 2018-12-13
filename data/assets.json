@@ -2,27 +2,22 @@
   "playerSkins": {
     "green_guy": {
       "name": "Green Guy",
-      "path": "./assets/characters/player"
+      "path": "./assets/characters/player/green_guy"
     },
     "platypus": {
       "name": "Platypus",
       "path": ""
-    },
-    "dinosaur": {
-      "name": "Dinosaur",
-      "path": ""
-    },
-    "doggo": {
-      "name": "Doggo",
-      "path": ""
-    },
-    "kitty_cat": {
-      "name": "Kitty Cat",
-      "path": ""
     }
   },
   "enemySkins": {
-    "name": "path"
+    "boss": {
+      "path": "./assets/characters/boss",
+      "attackTime": 0
+    },
+    "sgt_waffles": {
+      "path": "./assets/characters/sgt_waffles",
+      "attackTime": 1
+    }
   },
   "friendlySkins": {
     "name": "path"

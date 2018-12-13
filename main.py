@@ -5,17 +5,11 @@ print("Starting...")
 # TODO: Get some graphics sorted
 # TODO: Sort out animations
 
-# CONCEPT: SKIN: Platypus
-# CONCEPT: SKIN: Dinosaur
-# CONCEPT: SKIN: Doggo
-# CONCEPT: SKIN: Kitty cat
-
-import pygame
-
 from json import load
 settings = load(open("data/settings.json"))
 assets = load(open("data/assets.json"))
 
+import pygame
 pygame.init()
 screen = pygame.display.set_mode((settings["resolution"]["x"], settings["resolution"]["y"]))
 pygame.display.set_caption("BaftaYGD")
@@ -29,12 +23,16 @@ char = libs.sprites.player(
     path = assets["playerSkins"]["green_guy"]["path"],
     x = 0,
     y = settings["resolution"]["y"] - 74,
-    width = 64,
-    height = 64,
+    speed = 10
+)
+enemy = libs.sprites.enemy(
+    name = "sgt_waffles",#assets["enemySkins"]["sgt_waffles"]["path"],
+    x = settings["resolution"]["x"] - 150,
+    y = settings["resolution"]["y"] - 74,
     speed = 10
 )
 
-class gameResults:
+"""class gameResults:
     def victory():
         if remainingWaffles == 0:
             print("Victory")
@@ -45,7 +43,7 @@ class gameResults:
             # TODO: Replace this with an image asset
     def stalemate():
         if remaininTime == 0:
-            print("It's a draw!")
+            print("It's a draw!")"""
 
 render = True
 while render:
@@ -62,7 +60,9 @@ while render:
                 #DUCK_TRUE
                 if i.key in [pygame.K_DOWN, pygame.K_s, pygame.K_LCTRL]: char.duck(True)
                 #ATTACK_TRUE
-                if i.key == pygame.K_f: char.attack(True)
+                if i.key == pygame.K_f:
+                    char.attack(True)
+                    enemy.attack()
             if i.type == pygame.KEYUP:
                 #DUCK_FALSE
                 if i.key in [pygame.K_DOWN, pygame.K_s, pygame.K_LCTRL]: char.duck(False)
@@ -73,13 +73,13 @@ while render:
     screen.fill((255, 255, 255))
     # TODO: Make this an actual background
     if libs.loading.isLoading:
-        if libs.loading.loadingTick >= libs.loading.loadingTime:
+        if libs.loading.loadingFrame >= libs.loading.loadingTime:
             libs.loading.isLoading = False
-            libs.loading.loadingTick = 0
+            libs.loading.loadingFrame = 0
         pygame.draw.circle(screen, libs.loading.rainbow[0], (settings["resolution"]["x"]//2, settings["resolution"]["y"]//2), 5)
         for i in libs.loading.planets:
             i.update(screen)
-        libs.loading.loadingTick += 1
+        libs.loading.loadingFrame += 1
     else:
         """Keypresses"""
         keys = pygame.key.get_pressed()
@@ -115,6 +115,9 @@ while render:
         elif mx >= settings["resolution"]["x"] - 128:
             print("Right")
         screen.blit(pygame.transform.flip(char.state, char.facingLeft, False), (char.x, char.y))
+        #screen.blit(pygame.transform.flip(char.state, char.facingLeft, False), (char.x, char.y))
+        enemy.update()
+        screen.blit(enemy.state, (enemy.x, enemy.y))
     pygame.display.update()
 
 pygame.quit()

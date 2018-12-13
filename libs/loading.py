@@ -6,7 +6,7 @@ from json import load
 settings = load(open("data/settings.json"))
 
 isLoading = False
-loadingTick = int()
+loadingFrame = int()
 loadingTime = int()
 rainbow = [(255, 0, 0), (255, 255, 0), (0, 255, 0), (0, 255, 255), (0, 0, 255), (255, 0, 255)]
 planets = list()
