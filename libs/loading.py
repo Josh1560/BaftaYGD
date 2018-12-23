@@ -1,9 +1,9 @@
+from json import load
+settings = load(open("data/settings.json"))
+
 import math
 from pygame import draw
 from random import randint
-
-from json import load
-settings = load(open("data/settings.json"))
 
 isLoading = False
 loadingFrame = int()

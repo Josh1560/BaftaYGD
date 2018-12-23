@@ -1,13 +1,14 @@
-print("Starting...")
-
 # TODO: Add camera classes
 # TODO: Add attacking
 # TODO: Get some graphics sorted
 # TODO: Sort out animations
 
+print("Starting...")
+
 from json import load
-settings = load(open("data/settings.json"))
 assets = load(open("data/assets.json"))
+players = load(open("data/players.json"))
+settings = load(open("data/settings.json"))
 
 import pygame
 pygame.init()
@@ -15,22 +16,22 @@ screen = pygame.display.set_mode((settings["resolution"]["x"], settings["resolut
 pygame.display.set_caption("BaftaYGD")
 clock = pygame.time.Clock()
 
+"""Initialise Loading Screen""" # TODO: Move this into the game lib
 import libs.loading
-libs.loading.initiate(screen, libs.loading.rainbow[1:], 10)
+libs.loading.initiate(screen, libs.loading.rainbow[1:], 3)
 
-import libs.sprites
-char = libs.sprites.player(
-    path = assets["playerSkins"]["green_guy"]["path"],
-    x = 0,
-    y = settings["resolution"]["y"] - 74,
-    speed = 10
-)
+"""Initialise Game"""
+import libs.game
+libs.game.game("playerName", "green_guy")
+
+"""Initialise Sprites""" # TODO: Move this into the game lib
 enemy = libs.sprites.enemy(
-    name = "sgt_waffles",#assets["enemySkins"]["sgt_waffles"]["path"],
+    name = "sgt_waffles",
     x = settings["resolution"]["x"] - 150,
     y = settings["resolution"]["y"] - 74,
     speed = 10
 )
+libs.game.sprites.append(enemy)
 
 """class gameResults:
     def victory():
@@ -55,21 +56,20 @@ while render:
         """Key Events"""
         if not libs.loading.isLoading:
             if i.type == pygame.KEYDOWN:
-                # TODO: Change this to an esc menu
-                if i.key == pygame.K_ESCAPE: render = False
+                if i.key == pygame.K_ESCAPE: render = False # TODO: Change this to an esc menu
                 #DUCK_TRUE
-                if i.key in [pygame.K_DOWN, pygame.K_s, pygame.K_LCTRL]: char.duck(True)
+                if i.key in [pygame.K_DOWN, pygame.K_s, pygame.K_LCTRL]: libs.game.char.duck(True)
                 #ATTACK_TRUE
                 if i.key == pygame.K_f:
-                    char.attack(True)
+                    libs.game.char.attack(True)
                     enemy.attack()
             if i.type == pygame.KEYUP:
                 #DUCK_FALSE
-                if i.key in [pygame.K_DOWN, pygame.K_s, pygame.K_LCTRL]: char.duck(False)
+                if i.key in [pygame.K_DOWN, pygame.K_s, pygame.K_LCTRL]: libs.game.char.duck(False)
                 #ATTACK_FALSE
-                if i.key == pygame.K_f: char.attack(False)
-            if i.type == pygame.MOUSEBUTTONDOWN and i.button == 1: char.attack(True)
-            if i.type == pygame.MOUSEBUTTONUP and i.button == 1: char.attack(False)
+                if i.key == pygame.K_f: libs.game.char.attack(False)
+            if i.type == pygame.MOUSEBUTTONDOWN and i.button == 1: libs.game.char.attack(True)
+            if i.type == pygame.MOUSEBUTTONUP and i.button == 1: libs.game.char.attack(False)
     screen.fill((255, 255, 255))
     # TODO: Make this an actual background
     if libs.loading.isLoading:
@@ -84,28 +84,28 @@ while render:
         """Keypresses"""
         keys = pygame.key.get_pressed()
         #LEFT
-        if keys[pygame.K_LEFT]: char.left()
-        elif keys[pygame.K_a]: char.left()
+        if keys[pygame.K_LEFT]: libs.game.char.left()
+        elif keys[pygame.K_a]: libs.game.char.left()
         #RIGHT
-        if keys[pygame.K_RIGHT]: char.right()
-        elif keys[pygame.K_d]: char.right()
+        if keys[pygame.K_RIGHT]: libs.game.char.right()
+        elif keys[pygame.K_d]: libs.game.char.right()
         #JUMP
-        if not char.jumping:
+        if not libs.game.char.jumping:
             for i in [pygame.K_UP, pygame.K_w, pygame.K_SPACE]:
                 if keys[i]:
-                    char.jumping = True
+                    libs.game.char.jumping = True
         else:
-            if char.jumpFrame >= -10:
-                if char.jumpFrame < 0:
+            if libs.game.char.jumpFrame >= -10:
+                if libs.game.char.jumpFrame < 0:
                     fall = -1
                 else:
                     fall = 1
-                char.y -= (char.jumpFrame ** 2) / 2 * fall
-                char.jumpFrame -= 1
+                libs.game.char.y -= (libs.game.char.jumpFrame ** 2) / 2 * fall
+                libs.game.char.jumpFrame -= 1
             else:
-                char.jumping = False
-                char.jumpFrame = 10
-        #if char.attacking
+                libs.game.char.jumping = False
+                libs.game.char.jumpFrame = 10
+        #if libs.game.char.attacking
         """Mouse Positions"""
         mx, my = pygame.mouse.get_pos()
         #LEFT
@@ -114,10 +114,10 @@ while render:
         #RIGHT
         elif mx >= settings["resolution"]["x"] - 128:
             print("Right")
-        screen.blit(pygame.transform.flip(char.state, char.facingLeft, False), (char.x, char.y))
-        #screen.blit(pygame.transform.flip(char.state, char.facingLeft, False), (char.x, char.y))
+        """Draw Sprites"""
         enemy.update()
-        screen.blit(enemy.state, (enemy.x, enemy.y))
+        for i in libs.game.sprites:
+            screen.blit(pygame.transform.flip(i.state, i.facingLeft, False), (i.x, i.y))
     pygame.display.update()
 
 pygame.quit()
